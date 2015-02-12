@@ -370,7 +370,7 @@
 				ctx.lineTo(x2, y2);
 				ctx.lineTo(x3, y3);
 				ctx.lineTo(x1, y1);
-				
+				ctx.lineWidth = 1;
 				ctx.strokeStyle = stroke;
 				ctx.stroke();
 				ctx.fillStyle = "rgba(0, 0, 200, 0)";
