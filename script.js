@@ -20,20 +20,20 @@
 
 
 		var triad = {
-			first: {
-				x: min - padding, // right
-				y: getHeight(min) - padding,
-				p: 0.3
-			},
-			second: { // left
-				x: padding,
-				y: getHeight(min) - padding,
-				p: 0.3
-			},
-			third: { // top
+			top: {
 				x: min / 2,
 				y: padding,
-				p: 0.3
+				p: 0.33
+			},
+			left: {
+				x: padding,
+				y: getHeight(min) - padding,
+				p: 0.33
+			},
+			right: {
+				x: min - padding,
+				y: getHeight(min) - padding,
+				p: 0.34
 			}
 		};
 
@@ -49,40 +49,13 @@
 		}
 
 		function drawTriangle() {
-
-			/* 			ctx.shadowColor = '#000';
-
- 			ctx.fillStyle = "#999999";
-			//ctx.fillStyle = calculateFillColour(false);
-			ctx.fill(); 
-			ctx.shadowBlur = 6;
-			ctx.shadowOffsetX = 1;
-			ctx.shadowOffsetY = 1;
-			ctx.beginPath();
-
-			
-			
-			ctx.moveTo(triad.first.x, triad.first.y);
-			ctx.lineTo(triad.second.x, triad.second.y);
-			ctx.lineTo(triad.third.x, triad.third.y);
-
-			ctx.moveTo(triad.third.x, triad.third.y);
-			ctx.lineTo(triad.first.x, triad.first.y);
-			
-			ctx.endPath();
-
-			//ctx.shadowColor = rgba(0,0,0,0)
-			ctx.shadowBlur = 0;
-			ctx.shadowOffsetX = 0;
-			ctx.shadowOffsetY = 0; */
 			shadowOn();
-			triangle(triad.first.x, triad.first.y, triad.second.x, triad.second.y, triad.third.x, triad.third.y, "#333");
+			triangle(triad.right.x, triad.right.y, triad.left.x, triad.left.y, triad.top.x, triad.top.y, "#333");
 			shadowOff();
 		}
 
 		function shadowOn() {
 			ctx.shadowColor = '#000';
-
 			ctx.shadowBlur = 6;
 			ctx.shadowOffsetX = 1;
 			ctx.shadowOffsetY = 1;
@@ -97,7 +70,7 @@
 		}
 
 		var checkIfInside = function(p, p1, p2, p3) {
-			//var p1 = triad.first, p2 = triad.second, p3 = triad.third;
+			//var p1 = triad.right, p2 = triad.left, p3 = triad.top;
 
 			//Can be calculated only once:
 			var denom = (p1.y - p3.y) * (p1.x - p3.x) + (p3.x - p2.x) * (p1.y - p3.y);
@@ -119,9 +92,9 @@
 			var cNormalized = (0 <= c && c <= 1);
 
 			if (aNormalized && bNormalized && cNormalized) {
-				triad.third.p = c;
-				triad.second.p = b;
-				triad.first.p = a;
+				triad.top.p = c;
+				triad.left.p = b;
+				triad.right.p = a;
 				return {
 					x: a,
 					y: b,
@@ -144,7 +117,7 @@
 			insideData = checkIfInside({
 				"x": x,
 				"y": y
-			}, triad.first, triad.second, triad.third);
+			}, triad.right, triad.left, triad.top);
 
 			if (insideData != null)
 				point.x = x,
@@ -292,11 +265,11 @@
 				ctx.font = '9pt Tahoma';
 				ctx.textAlign = 'center';
 				ctx.fillStyle = 'white';
-				ctx.fillText(labs.top, triad.third.x, triad.third.y - 5);
+				ctx.fillText(labs.top, triad.top.x, triad.top.y - 5);
 				ctx.textAlign = 'left';
-				ctx.fillText(labs.left, triad.second.x, triad.second.y + 15);
+				ctx.fillText(labs.left, triad.left.x, triad.left.y + 15);
 				ctx.textAlign = 'right';
-				ctx.fillText(labs.right, triad.first.x, triad.first.y + 15);
+				ctx.fillText(labs.right, triad.right.x, triad.right.y + 15);
 			}
 
 			function resizeBar() {
@@ -306,9 +279,9 @@
 			}
 
 			function calculateFillColour(xor) {
-				//triad.first = red
-				//triad.second = green
-				//triad.third = blue
+				//triad.right = red
+				//triad.left = green
+				//triad.top = blue
 
 
 				var a;
@@ -332,52 +305,52 @@
 
 			function drawSubTriangles() {
 
-				var a1 = Math.atan2(triad.second.y - triad.third.y, triad.second.x - triad.third.x);
-				var a2 = Math.atan2(triad.first.y - triad.third.y, triad.first.x - triad.third.x);
+				var a1 = Math.atan2(triad.left.y - triad.top.y, triad.left.x - triad.top.x);
+				var a2 = Math.atan2(triad.right.y - triad.top.y, triad.right.x - triad.top.x);
 
-				var a3 = Math.atan2(triad.first.y - triad.second.y, triad.first.x - triad.second.x);
-				var a4 = Math.atan2(triad.third.y - triad.second.y, triad.third.x - triad.second.x);
+				var a3 = Math.atan2(triad.right.y - triad.left.y, triad.right.x - triad.left.x);
+				var a4 = Math.atan2(triad.top.y - triad.left.y, triad.top.x - triad.left.x);
 
-				var a5 = Math.atan2(triad.third.y - triad.first.y, triad.third.x - triad.first.x);
-				var a6 = Math.atan2(triad.second.y - triad.first.y, triad.second.x - triad.first.x);
+				var a5 = Math.atan2(triad.top.y - triad.right.y, triad.top.x - triad.right.x);
+				var a6 = Math.atan2(triad.left.y - triad.right.y, triad.left.x - triad.right.x);
 
 				var d = getHeight(min) - 0.5;
 
-				var px = triad.third.x + Math.cos(a1) * d * triad.third.p;
-				var py = triad.third.y + Math.sin(a1) * d * triad.third.p;
+				var px = triad.top.x + Math.cos(a1) * d * triad.top.p;
+				var py = triad.top.y + Math.sin(a1) * d * triad.top.p;
 
-				var px2 = triad.third.x + Math.cos(a2) * d * triad.third.p;
-				var py2 = triad.third.y + Math.sin(a2) * d * triad.third.p;
+				var px2 = triad.top.x + Math.cos(a2) * d * triad.top.p;
+				var py2 = triad.top.y + Math.sin(a2) * d * triad.top.p;
 
-				var px3 = triad.second.x + Math.cos(a3) * d * triad.second.p;
-				var py3 = triad.second.y + Math.sin(a3) * d * triad.second.p;
+				var px3 = triad.left.x + Math.cos(a3) * d * triad.left.p;
+				var py3 = triad.left.y + Math.sin(a3) * d * triad.left.p;
 
-				var px4 = triad.second.x + Math.cos(a4) * d * triad.second.p;
-				var py4 = triad.second.y + Math.sin(a4) * d * triad.second.p;
+				var px4 = triad.left.x + Math.cos(a4) * d * triad.left.p;
+				var py4 = triad.left.y + Math.sin(a4) * d * triad.left.p;
 
-				var px5 = triad.first.x + Math.cos(a5) * d * triad.first.p;
-				var py5 = triad.first.y + Math.sin(a5) * d * triad.first.p;
+				var px5 = triad.right.x + Math.cos(a5) * d * triad.right.p;
+				var py5 = triad.right.y + Math.sin(a5) * d * triad.right.p;
 
-				var px6 = triad.first.x + Math.cos(a6) * d * triad.first.p;
-				var py6 = triad.first.y + Math.sin(a6) * d * triad.first.p;
+				var px6 = triad.right.x + Math.cos(a6) * d * triad.right.p;
+				var py6 = triad.right.y + Math.sin(a6) * d * triad.right.p;
 
 
 
 				//ellipse(px, py, 10, 10);
 				//ellipse(px2, py2, 10, 10);
 
-				triangle(triad.third.x, triad.third.y, px, py, px2, py2, "rgb(46, 204, 113)");
+				triangle(triad.top.x, triad.top.y, px, py, px2, py2, "rgb(46, 204, 113)");
 
 
 				// ellipse(px3, py3, 10, 10);
 				// ellipse(px4, py4, 10, 10);
 
-				triangle(triad.second.x, triad.second.y, px3, py3, px4, py4, "rgb(52, 152, 219)");
+				triangle(triad.left.x, triad.left.y, px3, py3, px4, py4, "rgb(52, 152, 219)");
 
 				// ellipse(px5, py5, 10, 10);
 				// ellipse(px6, py6, 10, 10);
 
-				triangle(triad.first.x, triad.first.y, px5, py5, px6, py6, "rgb(155, 89, 182)");
+				triangle(triad.right.x, triad.right.y, px5, py5, px6, py6, "rgb(155, 89, 182)");
 
 			}
 
@@ -413,7 +386,7 @@
 				}
 				drawTriangle();
 				drawSubTriangles();
-				drawStroke(triad.first.x, triad.first.y, triad.second.x, triad.second.y, triad.third.x, triad.third.y, "#666");
+				drawStroke(triad.right.x, triad.right.y, triad.left.x, triad.left.y, triad.top.x, triad.top.y, "#666");
 				drawPoint();
 				drawLabels(labels);
 			}
