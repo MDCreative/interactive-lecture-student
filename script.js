@@ -257,6 +257,7 @@
 				ctx.lineTo(point.x - cSize, point.y);
 				ctx.moveTo(point.x, point.y);
 				ctx.lineTo(point.x, point.y - cSize);
+				ctx.lineWidth = 1;
 				ctx.stroke();
 			}
 
