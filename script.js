@@ -341,7 +341,7 @@
 				var a5 = Math.atan2(triad.third.y - triad.first.y, triad.third.x - triad.first.x);
 				var a6 = Math.atan2(triad.second.y - triad.first.y, triad.second.x - triad.first.x);
 
-				var d = (min - padding) / 2;
+				var d = getHeight(min);
 
 				var px = triad.third.x + Math.cos(a1) * d * triad.third.p;
 				var py = triad.third.y + Math.sin(a1) * d * triad.third.p;
