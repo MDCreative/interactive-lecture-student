@@ -76,7 +76,7 @@
 			ctx.shadowOffsetX = 0;
 			ctx.shadowOffsetY = 0; */
 			shadowOn();
-			triangle(triad.first.x, triad.first.y, triad.second.x, triad.second.y, triad.third.x, triad.third.y, "#333", "#777");
+			triangle(triad.first.x, triad.first.y, triad.second.x, triad.second.y, triad.third.x, triad.third.y, "#333");
 			shadowOff();
 		}
 
@@ -341,7 +341,7 @@
 				var a5 = Math.atan2(triad.third.y - triad.first.y, triad.third.x - triad.first.x);
 				var a6 = Math.atan2(triad.second.y - triad.first.y, triad.second.x - triad.first.x);
 
-				var d = getHeight(min);
+				var d = getHeight(min) - 0.5;
 
 				var px = triad.third.x + Math.cos(a1) * d * triad.third.p;
 				var py = triad.third.y + Math.sin(a1) * d * triad.third.p;
@@ -389,12 +389,19 @@
 				ctx.lineTo(x1, y1);
 				ctx.fillStyle = color;
 				ctx.fill();
-				if (typeof stroke != "undefined") {
-					ctx.strokeStyle = stroke;
-					ctx.stroke();
-				}
+			}
 
-
+			function drawStroke(x1, y1, x2, y2, x3, y3, stroke){
+				ctx.beginPath();
+				ctx.moveTo(x1, y1);
+				ctx.lineTo(x2, y2);
+				ctx.lineTo(x3, y3);
+				ctx.lineTo(x1, y1);
+				
+				ctx.strokeStyle = stroke;
+				ctx.stroke();
+				ctx.fillStyle = "rgba(0, 0, 200, 0)";
+				
 			}
 
 			function draw() {
@@ -406,6 +413,7 @@
 				}
 				drawTriangle();
 				drawSubTriangles();
+				drawStroke(triad.first.x, triad.first.y, triad.second.x, triad.second.y, triad.third.x, triad.third.y, "#666");
 				drawPoint();
 				drawLabels(labels);
 			}
