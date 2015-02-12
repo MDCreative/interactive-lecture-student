@@ -69,9 +69,29 @@
 			ctx.shadowOffsetY = 0;
 		}
 
-		var checkIfInside = function(p, p1, p2, p3) {
-			//var p1 = triad.right, p2 = triad.left, p3 = triad.top;
+		function clamp01(value)
+		{
+		    if(value > 1)
+		        return 1;
+		    
+		    else if(value < 0)
+		        return 0;
+		        
+		    else
+		        return value;
+		}
 
+		var interpolateTriangleSide = function(from, to, mouse) 
+		{
+		    var percentY = (mouse.y - to.y) / (from.y - to.y);
+
+		    var cX = to.x + (from.x - to.x) * percentY;
+
+		    return cX;
+		};
+
+		function getBarycentricCoords(p, p1, p2, p3)
+		{
 			//Can be calculated only once:
 			var denom = (p1.y - p3.y) * (p1.x - p3.x) + (p3.x - p2.x) * (p1.y - p3.y);
 
@@ -86,19 +106,26 @@
 			var b = ((p3.y - p1.y) * pResults.x + (p1.x - p3.x) * pResults.y) / denom;
 			var c = 1.0 - a - b;
 
+			return { a : a, b : b, c : c };
+		}
+
+		var checkIfInside = function(p, p1, p2, p3) {
+			//var p1 = triad.right, p2 = triad.left, p3 = triad.top;
+
+			var bdata = getBarycentricCoords(p, p1, p2, p3);			
+
 			//Test whether or not a, b and c are between 0 and 1 inclusive.
-			var aNormalized = (0 <= a && a <= 1);
-			var bNormalized = (0 <= b && b <= 1);
-			var cNormalized = (0 <= c && c <= 1);
+			var aNormalized = (0 <= bdata.a && bdata.a <= 1);
+			var bNormalized = (0 <= bdata.b && bdata.b <= 1);
+			var cNormalized = (0 <= bdata.c && bdata.c <= 1);
+
 
 			if (aNormalized && bNormalized && cNormalized) {
-				triad.top.p = c;
-				triad.left.p = b;
-				triad.right.p = a;
+
 				return {
-					x: a,
-					y: b,
-					z: c
+					x: bdata.a,
+					y: bdata.b,
+					z: bdata.c
 				};
 			} else {
 				return null;
@@ -123,7 +150,61 @@
 				point.x = x,
 				point.y = y;
 			else
-				console.log("didn't move. outside");
+			{
+				var p = { x : x, y : y };
+
+				var baseX = triad.right.x - triad.left.x;
+				var baseY = triad.right.y;
+
+				var left = p.x < triad.left.x + (baseX / 2);
+		
+
+				if(p.y > triad.left.y)
+				{
+				    //Bottom
+				    
+				    //Bottom, middle
+				    if(p.x > triad.left.x && p.x < triad.right.x)
+				        p.y = triad.left.y;
+				    
+				    else
+				    {
+				        //Bottom, lock to either left or right
+				        if(left)
+				            p = { x : triad.left.x, y : triad.left.y };
+				        
+				        else			        
+				            p = { x : triad.right.x, y : triad.right.y };    
+				    }
+				}
+
+				//Top
+				else if(p.y < triad.top.y)
+				    p = { x : triad.top.x, y : triad.top.y };
+
+				else if(p.y <= triad.left.y)
+				{
+				    //Middle, interpolation
+				    var cX;
+				    
+					if(left)
+				        cX = interpolateTriangleSide(triad.left, triad.top, p);
+				    
+				    else
+				        cX = interpolateTriangleSide(triad.right, triad.top, p);
+				    
+				    p.x = cX;
+				}
+
+				point.x = p.x;
+				point.y = p.y;
+			}
+
+			var bdata = getBarycentricCoords(point, triad.right, triad.left, triad.top);	
+
+			triad.top.p   = clamp01(bdata.c);
+			triad.left.p  = clamp01(bdata.b);
+			triad.right.p = clamp01(bdata.a);
 
 			//console.log(insideData.x * 100 + ", " + insideData.y * 100 + ", " + insideData.z * 100 + " :: " + (insideData.x + insideData.y + insideData.z));
 
@@ -315,7 +396,7 @@
 				var a5 = Math.atan2(triad.top.y - triad.right.y, triad.top.x - triad.right.x);
 				var a6 = Math.atan2(triad.left.y - triad.right.y, triad.left.x - triad.right.x);
 
-				var d = getHeight(min) - 0.5;
+				var d = getHeight(min) * 0.5;
 
 				var px = triad.top.x + Math.cos(a1) * d * triad.top.p;
 				var py = triad.top.y + Math.sin(a1) * d * triad.top.p;
