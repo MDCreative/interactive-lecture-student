@@ -234,10 +234,11 @@
 				//When progress bar is full
 				//..
 
+				sendCoordData();
+				
 				clearInterval(timer);
 				currentStep = 0;
 				currentEndAngle = 0;
-				console.log("done!");
 
 				ctx.clearRect(0, 0, canvas.width, canvas.height);
 				draw();
@@ -302,7 +303,7 @@
 			return "#" + hexf(c.r) +  hexf(c.g) + hexf(c.b);
 		};
 		
-			function drawPoint() {
+		function drawPoint() {
 				var cSize = 5;
 				if (point.x == -1 && point.y == -1)
 					return;
@@ -361,11 +362,6 @@
 			}
 
 			function calculateFillColour(xor) {
-				//triad.right = red
-				//triad.left = green
-				//triad.top = blue
-
-
 				var a;
 
 				if (!xor) {
@@ -475,20 +471,37 @@
 
 		draw();
 
-		function getHeight(num) {
+		function getHeight(num) 
+		{
 			return Math.sqrt(Math.pow(num, 2) - Math.pow(num / 2, 2));
 		}
 
-
 		var app = angular.module("app", ["firebase"]);
 
-		app.controller("BlahCtrl", function($scope, $firebase) {
-			$scope.ref = new Firebase("https://interactive-lecture.firebaseio.com/data");
-
-			$scope.sendData = function(e) {
-				e.preventDefault();
-				//alert("hello");
-				var kid = $scope.ref.child("Test");
-				kid.push(lastCoords);
-			};
-		});
+		function sendCoordData()
+		{
+			var ref = new Firebase("https://interactive-lecture.firebaseio.com/data");
+			
+			var child = ref.child("Test");
+			child.push(lastCoords);
+		}
+		
+		function sendHashtag()
+		{
+			console.log("sent!");
+		}
+		
+		function hashtagKeyPressed(e)
+		{
+			if(e.keyCode == 13)
+			{
+				sendHashtag();
+				return;
+			}
+		}
+		
+		var hashtagBox = document.getElementById("hshtag-box");
+		
+		hashtagBox.addEventListener('keypress', hashtagKeyPressed, true);
+		
+		
