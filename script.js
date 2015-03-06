@@ -484,7 +484,11 @@ function drawSubTriangles() {
 		var ref = new Firebase("https://interactive-lecture.firebaseio.com/Test/" + id);
 
 		var child = ref.child("triad");
-		child.push(lastCoords);
+		var data = {
+			time: Date.now()
+		};
+		$.extend(data, lastCoords);
+		child.push(data);
 	}
 
 

@@ -4,6 +4,7 @@ var app = angular.module("app", ["firebase"]);
 app.controller("LoginCtrl", function($scope, $firebase) {
 	$scope.signin = function(){
     //Firebase.goOnline();
+    triad = new Triad($scope.id);   
     $scope.mainRef = new Firebase("https://interactive-lecture.firebaseio.com/Test/"+$scope.id);
 
     $scope.ref = $scope.mainRef.child('Questions');
@@ -46,7 +47,7 @@ app.controller("LoginCtrl", function($scope, $firebase) {
         alert(str.substring(0,str.length-1));
       }
     }
-    triad = new Triad($scope.id);		
+    
   });
 
 
