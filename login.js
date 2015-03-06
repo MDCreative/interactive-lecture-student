@@ -46,7 +46,7 @@ app.controller("LoginCtrl", function($scope, $firebase) {
         alert(str.substring(0,str.length-1));
       }
     }
-    triad = new Triad();		
+    triad = new Triad($scope.id);		
   });
 
 

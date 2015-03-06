@@ -1,4 +1,4 @@
-var Triad = function(){
+var Triad = function(id){
 	var lastCoords;
 	document.addEventListener("touchmove", function(event) {
 		event.preventDefault();
@@ -481,9 +481,9 @@ function drawSubTriangles() {
 
 	function sendCoordData()
 	{
-		var ref = new Firebase("https://interactive-lecture.firebaseio.com/data");
+		var ref = new Firebase("https://interactive-lecture.firebaseio.com/Test/" + id);
 
-		var child = ref.child("Test");
+		var child = ref.child("triad");
 		child.push(lastCoords);
 	}
 
