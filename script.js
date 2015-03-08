@@ -485,7 +485,7 @@ function drawSubTriangles() {
 
 		var child = ref.child("triad");
 		var data = {
-			time: Date.now()
+			time: Firebase.ServerValue.TIMESTAMP
 		};
 		$.extend(data, lastCoords);
 		child.push(data);

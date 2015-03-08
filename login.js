@@ -29,7 +29,7 @@ app.controller("LoginCtrl", function($scope, $firebase) {
 
       var time = messageSnapshot.child('time').val();
       var type = messageSnapshot.child('type').val();
-      var diff = Date.now() - parseInt(time);
+      var diff = Firebase.ServerValue.TIMESTAMP - parseInt(time);
       if(diff <= 120000){
         if (type === 1){
 
