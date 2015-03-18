@@ -31,9 +31,10 @@ app.controller("LoginCtrl", function($scope, $firebase) {
 
 
     $scope.ref.limitToLast(1).on("child_added",function(messageSnapshot){
+      console.log("running")
       var time = messageSnapshot.child('time').val();
       var type = messageSnapshot.child('type').val();
-      var diff = Firebase.ServerValue.TIMESTAMP - parseInt(time);
+      var diff = Date.now() - parseInt(time);
       if(diff <= 120000){
         if (type === 1){
 
@@ -69,15 +70,3 @@ app.controller("LoginCtrl", function($scope, $firebase) {
     }
 
   });
-
-
-
-
-
-
-
-
-
-
-
-
