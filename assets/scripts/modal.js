@@ -38,7 +38,7 @@ var Modal = function(questions, ref, userRef){
 		width = $( window ).width();
 		div.animate({
 			left:"-"+ (width + 10) +"px"
-		}, 500, function(){
+		}, 500, 'linear', function(){
 			this.remove();
 		});
 	}

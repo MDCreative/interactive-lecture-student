@@ -14,7 +14,7 @@ var Triad = function(id){
 
 	var cursorRadius = 20;
 
-	var min = Math.min(window.innerWidth, window.innerHeight) - 20;
+	var min = Math.min(window.outerWidth, window.outerHeight) - 20;
 	var padding = cursorRadius / 2 + 10;
 
 	ctx.canvas.width = ctx.canvas.height = min;
