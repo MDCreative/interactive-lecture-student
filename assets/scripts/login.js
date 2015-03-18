@@ -17,7 +17,9 @@ app.controller("LoginCtrl", function($scope, $firebase) {
     var width = $( window ).width();
     $('#login').animate({
       left:"-"+ (width + 10) +"px"
-    }, 500);
+    }, 500, function(){
+      this.remove();
+    });
 
     $scope.ref = $scope.mainRef.child('Questions');
     console.log("https://interactive-lecture.firebaseio.com/Test/"+$scope.id);
@@ -28,32 +30,19 @@ app.controller("LoginCtrl", function($scope, $firebase) {
 
 
     $scope.userRef = $scope.mainRef.child('users').push(1);
+    
 
 
     $scope.ref.limitToLast(1).on("child_added",function(messageSnapshot){
-      console.log("running")
+      var ref = messageSnapshot.ref();
       var time = messageSnapshot.child('time').val();
       var type = messageSnapshot.child('type').val();
       var diff = Date.now() - parseInt(time);
       if(diff <= 120000){
-        if (type === 1){
-
-         alert("True or False");
-
-       } 
-       else{
-         var str = "";
-         for(var i = 1;i <= type;i++){
-
-
-          str += String.fromCharCode(96 + i) + ",";
-
-        }
-        alert(str.substring(0,str.length-1));
+        var mod = new Modal(type, ref, $scope.userRef);
       }
-    }
-    
-  });
+
+    });
 
 
   }

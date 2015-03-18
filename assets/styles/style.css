@@ -103,3 +103,6 @@ body {
 #login h2{
 	color:#FFF;
 }
+.hidden{
+	top:-100%;
+}
