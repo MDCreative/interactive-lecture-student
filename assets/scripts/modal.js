@@ -24,7 +24,7 @@ var Modal = function(questions, ref, userRef, type){
     else{
       var str = "";
       for(var i = 1;i <= questions;i++){
-        this.div.append('<div class="huge ui blue button mza" data-ans="'+i+'">'+String.fromCharCode(96 + i)+'</div><br />');
+        this.div.append('<div class="huge ui blue button mza" data-ans="'+i+'">'+String.fromCharCode(96 + i)+'</div><br />');   
       }
     }
 

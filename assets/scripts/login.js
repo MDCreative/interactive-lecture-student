@@ -17,6 +17,24 @@ app.directive("hashtag", function(){
   }
 });
 
+app.directive("logout", function(){
+  return{
+    templateUrl: "assets/html/logout.html",
+    restric: "E",
+    controller: "LogOutCtrl"
+  }
+});
+
+app.controller("LogOutCtrl", function($scope, $firebase){
+  $scope.signout = function(){
+    var pu = new Popup();
+    var logout = function(){
+      location.reload();
+    }
+    pu.ask('Are you sure you want to log out', ['Yes', 'No'], [logout]);
+  };
+});
+
 app.controller("LoginCtrl", function($scope, $firebase) {
 	$scope.signin = function(){
     //Firebase.goOnline();
@@ -27,7 +45,6 @@ app.controller("LoginCtrl", function($scope, $firebase) {
         if(!exists || $scope.id == ""){
           var pu = new Popup();
           pu.ask("Please enter a valid code", ["OK"]);
-          alert("Please enter a valid code");
         } else {
           var width = $( window ).width();
           $('#login').animate({
