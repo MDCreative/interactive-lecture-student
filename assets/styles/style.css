@@ -106,3 +106,15 @@ body {
 .hidden{
 	top:-100%;
 }
+#cancelButton{
+	margin-top:10px;
+}
+.whtTxt{
+	color:#fff !important;
+}
+.hashtag h2{
+	margin-top: 20px;
+}
+.hashtag *{
+	margin-top: 20px;
+}

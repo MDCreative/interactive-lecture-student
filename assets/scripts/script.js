@@ -492,50 +492,8 @@ function drawSubTriangles() {
 	}
 
 
-	var hashtagBox = document.getElementById("hshtag-box");
 
-	hashtagBox.addEventListener('keypress', hashtagKeyPressed, true);
 
-	function camelcase(string)
-	{
-		var vals = string.split(/\s/);
-
-		var str = "";
-
-		for(var i = 0; i < vals.length; i++)
-		{
-			for(var j = 0; j < vals[i].length; j++)
-			{
-				if(vals[i][j].match(/[^a-zA-Z0-9]/g))
-					continue;
-				
-				if(j == 0 && i > 0)
-					str += vals[i][j].toUpperCase();
-				else
-					str += vals[i][j].toLowerCase();
-			}
-		}
-
-		return str;
-	}
-
-	function sendHashtag()
-	{
-		console.log(camelcase(hashtagBox.value));
-		hashtagBox.value = "";
-	}
-
-	function hashtagKeyPressed(e)
-	{
-		if(e.keyCode == 13)
-		{
-			if(hashtagBox.value.match(/\S/) === null)
-				return;
-			
-			sendHashtag();
-			return;
-		}
-	}
 	draw();
 
 };
