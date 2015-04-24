@@ -1,12 +1,12 @@
 /**
  * The angular app which the whole student process will use
  */
-var app = angular.module("app", ["firebase"]);
+ var app = angular.module("app", ["firebase"]);
 
 /**
  * Login directive used to process a users login
  */
-app.directive("login", function(){
+ app.directive("login", function(){
   return{
     templateUrl: "assets/html/login.html",
     restrict: "E",
@@ -17,7 +17,7 @@ app.directive("login", function(){
 /**
  * Hashtag directive allows users to send hashtags to the system
  */
-app.directive("hashtag", function(){
+ app.directive("hashtag", function(){
   return{
     templateUrl: "assets/html/hashtag.html",
     restrict: "E",
@@ -28,7 +28,7 @@ app.directive("hashtag", function(){
 /**
  * Provides the user with logout functionality
  */
-app.directive("logout", function(){
+ app.directive("logout", function(){
   return{
     templateUrl: "assets/html/logout.html",
     restric: "E",
@@ -39,12 +39,12 @@ app.directive("logout", function(){
 /**
  * Logout controller used to sign the user out
  */
-app.controller("LogOutCtrl", function($scope, $firebase){
+ app.controller("LogOutCtrl", function($scope, $firebase){
   /**
    * Signs the user out of the lecture by reloading the page
    * user is prompted to confirm first.
    */
-  $scope.signout = function(){
+   $scope.signout = function(){
     var pu = new Popup();
     var logout = function(){
       $scope.userRef.remove();
@@ -57,17 +57,17 @@ app.controller("LogOutCtrl", function($scope, $firebase){
 /**
  * Login controller, signs the user into the system.
  */
-app.controller("LoginCtrl", function($scope, $firebase) {
+ app.controller("LoginCtrl", function($scope, $firebase) {
   /**
    * Sign a user into the system
    */
-	$scope.signin = function(){
+   $scope.signin = function(){
     //Firebase.goOnline();
     triad = new Triad($scope.id);   
     // We are going to check that the lecture exists and has a status of 1 (open)
     $scope.mainRef = new Firebase("https://interactive-lecture.firebaseio.com/Test/"+$scope.id);
-      $scope.mainRef.child('status').once('value', function(snapshot) {
-        exists = (snapshot.val() == 1);
+    $scope.mainRef.child('status').once('value', function(snapshot) {
+      exists = (snapshot.val() == 1);
         // The lecture id is invalid
         if(!exists || $scope.id == ""){
           var pu = new Popup();
@@ -95,7 +95,7 @@ app.controller("LoginCtrl", function($scope, $firebase) {
            * Triggers when a lecturer poses a question. Will show on all clients
            * but only in a 2 mminute period
            */
-          $scope.ref.limitToLast(1).on("child_added",function(messageSnapshot){
+           $scope.ref.limitToLast(1).on("child_added",function(messageSnapshot){
             var ref = messageSnapshot.ref();
             var time = messageSnapshot.child('time').val();
             var type = messageSnapshot.child('type').val();
@@ -106,22 +106,23 @@ app.controller("LoginCtrl", function($scope, $firebase) {
             }
 
           });
-        }
+         }
 
-      });
+       });
 
 
 
-}
+  }
+});
 /**
  * Logic for the hashtag submit process
  */
-app.controller("HashTagCtrl", function($scope, $firebase){
+ app.controller("HashTagCtrl", function($scope, $firebase){
   $scope.mainRef = new Firebase("https://interactive-lecture.firebaseio.com/Test/"+$scope.id);
   /**
    * Invokes a modal window to get the hashtag from the user
    */
-  $scope.showmodal = function(){
+   $scope.showmodal = function(){
     var mod = new Modal(null, $scope.mainRef, null, "hashtag");
   }
 });
