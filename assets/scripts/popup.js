@@ -1,5 +1,14 @@
+/**
+ * Popup window used to show users various bits of information. Replaces the
+ * JS alert function
+ */
 var Popup = function(){
-
+  /**
+   * prompt the user with a message
+   * @param message The message to be displayed
+   * @param buttons Array of strings for the buttons
+   * @params functions Array of functions to be invoked when a button is pressed based on their respective indeces
+   */
   this.ask = function(message, buttons, functions){
     this.id = 'modal'+Math.floor(Math.random()*1000);
     this.div = jQuery('<div/>', {
@@ -14,6 +23,10 @@ var Popup = function(){
     this.div.append('</div>');
     this.div.appendTo('body');
     var _this = this;
+    /**
+     * When a button is pressed we check for a corresponding function to invoke
+     * if it exists we invoke it otherwise we do nothing.
+     */
     this.div.find('.button').on('click', function(){
       var ans = $(this).attr('data-ans');
 
@@ -27,7 +40,10 @@ var Popup = function(){
       top:"0px"
     }, 500);
   }
-
+  /**
+   * Close the modal window after processing
+   * @param div the div that needs to be closed
+   */
   this.killMe = function(div){
     width = $( window ).width();
     div.animate({
