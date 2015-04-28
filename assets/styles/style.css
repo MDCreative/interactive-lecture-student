@@ -125,3 +125,13 @@ body {
 .clear{
 	clear:both;
 }
+.green, .red{
+	width: 56px;
+	float:left;
+}
+.red{
+	float:right;
+}
+canvas{
+	margin-top:30px;
+}
