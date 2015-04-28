@@ -128,9 +128,11 @@ body {
 .green, .red{
 	width: 56px;
 	float:left;
+	margin: 0 0 0 20px;
 }
 .red{
 	float:right;
+	margin: 0 20px 0 0;
 }
 canvas{
 	margin-top:30px;
