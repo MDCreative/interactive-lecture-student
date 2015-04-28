@@ -15,12 +15,12 @@ var Triad = function(id){
 
 	var cursorRadius = 20;
 
-	var min = Math.min($(window).width(), $(window).height()) - 20;
+	var min = Math.min(screen.width, screen.height - 20);
 	var padding = cursorRadius / 2 + 10;
 
 	ctx.canvas.width = ctx.canvas.height = min;
 
-	alert($(window).width() + " " + $(window).height());
+	//alert(screen.width + " " + screen.height);
 
 	var triad = {
 		top: {
