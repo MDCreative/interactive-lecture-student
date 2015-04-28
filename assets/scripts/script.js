@@ -20,7 +20,7 @@ var Triad = function(id){
 
 	ctx.canvas.width = ctx.canvas.height = min;
 
-	alert(min);
+	alert($(window).width() + " " + $(window).height());
 
 	var triad = {
 		top: {

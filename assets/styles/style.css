@@ -125,12 +125,12 @@ body {
 .clear{
 	clear:both;
 }
-.green, .red{
+.hash, .logout{
 	width: 56px;
 	float:left;
 	margin: 0 0 0 20px !important;
 }
-.red{
+.logout{
 	float:right;
 	margin: 0 20px 0 0 !important;
 }
