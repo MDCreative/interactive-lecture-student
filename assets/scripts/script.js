@@ -3,6 +3,7 @@ var Triad = function(id){
 	document.addEventListener("touchmove", function(event) {
 		event.preventDefault();
 	});
+	$('body').scrollTop(1);
 
 	var labels = {
 		top: "Confused",
