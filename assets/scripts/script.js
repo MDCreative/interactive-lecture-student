@@ -20,6 +20,11 @@ var Triad = function(id){
 
 	ctx.canvas.width = ctx.canvas.height = min;
 
+	$(canvas).css({
+		width: min,
+		margin: "0 auto"
+	});
+
 	//alert(screen.width + " " + screen.height);
 
 	var triad = {
