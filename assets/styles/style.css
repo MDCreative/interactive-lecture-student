@@ -119,3 +119,9 @@ body {
 .hashtag *{
 	margin-top: 20px;
 }
+.float{
+	float:left;
+}
+.clear{
+	clear:both;
+}
