@@ -353,7 +353,7 @@ function drawPoint() {
 
 	function drawLabels(labs) {
 		ctx.fill();
-		ctx.font = '9pt Tahoma';
+		ctx.font = '9pt Verdana';
 		ctx.textAlign = 'center';
 		ctx.fillStyle = 'white';
 		ctx.fillText(labs.top, triad.top.x, triad.top.y - 5);
