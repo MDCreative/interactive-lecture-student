@@ -41,6 +41,14 @@
  */
  app.controller("LogOutCtrl", function($scope, $firebase){
   /**
+   * Check to see if the lecture is closed
+   */
+  $scope.mainRef = new Firebase("https://interactive-lecture.firebaseio.com/Test/"+$scope.id);
+  $scope.mainRef.child("closed").on('value', function(){
+
+    location.reload();  
+  });
+  /**
    * Signs the user out of the lecture by reloading the page
    * user is prompted to confirm first.
    */
@@ -119,6 +127,7 @@
  */
  app.controller("HashTagCtrl", function($scope, $firebase){
   $scope.mainRef = new Firebase("https://interactive-lecture.firebaseio.com/Test/"+$scope.id);
+
   /**
    * Invokes a modal window to get the hashtag from the user
    */
