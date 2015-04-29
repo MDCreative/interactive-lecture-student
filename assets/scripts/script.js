@@ -1,10 +1,18 @@
+/**
+ * Builds the various elements of the view
+ * @param id the id of the lecture that the student has logged into
+ */
 var Triad = function(id){
 	var lastCoords;
+	// prevent mobile bounce scrolling
 	document.addEventListener("touchmove", function(event) {
 		event.preventDefault();
 	});
+	// On some devices the top of the content is hidden by the address bar
+	// this code scrolls the page up to ensure that it is all visible
 	$('body').scrollTop(1);
 
+	// Triad labels
 	var labels = {
 		top: "Confused",
 		left: "Enlightened",
@@ -15,6 +23,8 @@ var Triad = function(id){
 
 	var cursorRadius = 20;
 
+	// work out the size that the canvas needed on each device by getting the 
+	// minimum between height and width.
 	var min = Math.min(screen.width - 20, screen.height - 20);
 	var padding = cursorRadius / 2 + 10;
 
@@ -25,8 +35,7 @@ var Triad = function(id){
 		margin: "0 auto"
 	});
 
-	//alert(screen.width + " " + screen.height);
-
+	// triad js object containing all of it's points and properties
 	var triad = {
 		top: {
 			x: min / 2,
@@ -56,12 +65,18 @@ var Triad = function(id){
 		z: 0.34
 	}
 
+	/**
+	 * Draw the triangle on the canvas
+	 */
 	function drawTriangle() {
 		shadowOn();
 		triangle(triad.right.x, triad.right.y, triad.left.x, triad.left.y, triad.top.x, triad.top.y, "#333");
 		shadowOff();
 	}
 
+	/**
+	 * Turn shadows on for drawing
+	 */
 	function shadowOn() {
 		ctx.shadowColor = '#000';
 		ctx.shadowBlur = 6;
@@ -70,6 +85,9 @@ var Triad = function(id){
 		ctx.beginPath();
 	}
 
+	/**
+	 * Turn shadows off for drawing
+	 */
 	function shadowOff() {
 		ctx.shadowColor = "rgba(0,0,0,0)";
 		ctx.shadowBlur = 0;
@@ -77,6 +95,10 @@ var Triad = function(id){
 		ctx.shadowOffsetY = 0;
 	}
 
+	/**
+	 * Clamps a value between and 0 and 1
+	 * @param value to be clamped
+	 */
 	function clamp01(value)
 	{
 		if(value > 1)
@@ -89,6 +111,12 @@ var Triad = function(id){
 			return value;
 	}
 
+	/**
+	 * Calculates the side of the tirangle
+	 * @param from point from
+	 * @param to point to
+	 * @param mouse current mouse position
+	 */
 	var interpolateTriangleSide = function(from, to, mouse) 
 	{
 		var percentY = (mouse.y - to.y) / (from.y - to.y);
@@ -98,6 +126,13 @@ var Triad = function(id){
 		return cX;
 	};
 
+	/**
+	 * Get the barycentric coordinates of a point within a triangle
+	 * @param p point to find
+	 * @param p1 point one of triangle
+	 * @param p2 point two of triangle
+	 * @param p3 point three of triangle
+	 */
 	function getBarycentricCoords(p, p1, p2, p3)
 	{
 	//Can be calculated only once:
@@ -117,6 +152,13 @@ var Triad = function(id){
 	return { a : a, b : b, c : c };
 }
 
+/**
+ * Check to see if a point is inside a given triangle
+ * @param p point to find
+ * @param p1 point one of triangle
+ * @param p2 point two of triangle
+ * @param p3 point three of triangle
+ */
 var checkIfInside = function(p, p1, p2, p3) {
 	//var p1 = triad.right, p2 = triad.left, p3 = triad.top;
 
@@ -142,12 +184,13 @@ var checkIfInside = function(p, p1, p2, p3) {
 
 var insideData;
 
+/**
+ * Callback for the drag event on the canvas
+ * @param ev the event that called the function
+ */
 var canvasDrag = function(ev) {
 	var x = ev.changedTouches[0].pageX - canvas.offsetLeft;
 	var y = ev.changedTouches[0].pageY - canvas.offsetTop;
-
-	//ev.clientX -= canvas.offsetLeft;
-	//ev.clientY -= canvas.offsetTop;
 
 	insideData = checkIfInside({
 		"x": x,
@@ -214,8 +257,6 @@ var canvasDrag = function(ev) {
 	triad.left.p  = clamp01(bdata.b);
 	triad.right.p = clamp01(bdata.a);
 
-	//console.log(insideData.x * 100 + ", " + insideData.y * 100 + ", " + insideData.z * 100 + " :: " + (insideData.x + insideData.y + insideData.z));
-
 	currentStep = 0;
 	currentEndAngle = 0;
 	clearInterval(timer);
@@ -227,6 +268,9 @@ var canvasDrag = function(ev) {
 //Adjust max step (> is slower, < is faster)
 var timer, currentStep = 0, currentEndAngle, maxStep = 32;
 
+/**
+ * Legacy function: Update the progress bar
+ */
 var progressBarUpdate = function()
 {
 	currentStep++;
@@ -257,6 +301,10 @@ var progressBarUpdate = function()
 	
 };
 
+/**
+ * Callback for the drag end event on the canvas
+ * @param ev the event that called the function
+ */
 var canvasDragEnd = function(ev) {
 	//resizeBar();
 	var x = ev.changedTouches[0].pageX - canvas.offsetLeft;
@@ -267,6 +315,12 @@ var canvasDragEnd = function(ev) {
 
 }
 
+/**
+ * Legacy function: interpolate colours
+ * @param from color object form
+ * @param to color object to
+ * @param position for the interpolated color
+ */
 var colourLerp = function(from, to, at)
 {
 	if(typeof from != "string" || typeof to != "string")
@@ -310,7 +364,9 @@ var colourLerp = function(from, to, at)
 	//And return a css 24 bit hex colour string
 	return "#" + hexf(c.r) +  hexf(c.g) + hexf(c.b);
 };
-
+/**
+ * Draw the selected point on the canvas
+ */
 function drawPoint() {
 	var cSize = 5;
 	if (point.x == -1 && point.y == -1)
@@ -330,7 +386,7 @@ function drawPoint() {
 
 		//Marker (orange)
 		ctx.beginPath();
-		ctx.fillStyle = "#e67e22"; //calculateFillColour(true);
+		ctx.fillStyle = "#e67e22"; 
 		ctx.arc(point.x, point.y, 20, 0, 2 * Math.PI, false);
 		ctx.fill();
 		shadowOff();
@@ -351,6 +407,10 @@ function drawPoint() {
 		ctx.stroke();
 	}
 
+	/**
+	 * Draw the labels on the canvas
+	 * @param labs the labels to be used on the canvas
+	 */
 	function drawLabels(labs) {
 		ctx.fill();
 		ctx.font = '9pt Verdana';
@@ -363,32 +423,18 @@ function drawPoint() {
 		ctx.fillText(labs.right, triad.right.x, triad.right.y + 15);
 	}
 
+	/**
+	 * Legacy function: Resizes the progess bars
+	 */
 	function resizeBar() {
 		document.getElementById("red").style.width = Math.round(99 * lastCoords.x) + "%";
 		document.getElementById("green").style.width = Math.round(99 * lastCoords.y) + "%";
 		document.getElementById("blue").style.width = Math.round(99 * lastCoords.z) + "%";
 	}
 
-	function calculateFillColour(xor) {
-		var a;
-
-		if (!xor) {
-			a = "rgb(" + Math.round(255 * lastCoords.x) + ", " +
-				Math.round(255 * lastCoords.y) + ", " +
-				Math.round(255 * lastCoords.z) + ")";
-} else {
-	a = "rgb(" + (Math.round(255 * lastCoords.x) ^ 255) + ", " +
-		(Math.round(255 * lastCoords.y) ^ 255) + ", " +
-		(Math.round(255 * lastCoords.z) ^ 255) + ")";
-}
-
-console.log(a + ", " + xor);
-
-return a;
-
-}
-
-
+/**
+ * Draw the sub triangles in each corner
+ */
 function drawSubTriangles() {
 
 	var a1 = Math.atan2(triad.left.y - triad.top.y, triad.left.x - triad.top.x);
@@ -439,7 +485,17 @@ function drawSubTriangles() {
 		triangle(triad.right.x, triad.right.y, px5, py5, px6, py6, "rgb(155, 89, 182)");
 
 	}
-
+	/**
+	 * Draws a triangle
+	 * @param x1 the first point x
+	 * @param y1 the first point y
+	 * @param x2 the second point x
+	 * @param y2 the second point y
+	 * @param x3 the third point x
+	 * @param y3 the first point y
+	 * @param color the color of the triangle
+	 * @param stroke the stroke for the triangle
+	 */
 	function triangle(x1, y1, x2, y2, x3, y3, color, stroke) {
 		ctx.beginPath();
 		ctx.moveTo(x1, y1);
@@ -450,6 +506,17 @@ function drawSubTriangles() {
 		ctx.fill();
 	}
 
+	
+	/**
+	 * Draws a stroke for a traingle
+	 * @param x1 the first point x
+	 * @param y1 the first point y
+	 * @param x2 the second point x
+	 * @param y2 the second point y
+	 * @param x3 the third point x
+	 * @param y3 the first point y
+	 * @param stroke the stroke for the triangle
+	 */
 	function drawStroke(x1, y1, x2, y2, x3, y3, stroke){
 		ctx.beginPath();
 		ctx.moveTo(x1, y1);
@@ -463,6 +530,9 @@ function drawSubTriangles() {
 		
 	}
 
+	/**
+	 * Draw function invokes various methods to draw the triad
+	 */
 	function draw() {
 		canvas.addEventListener('touchmove', canvasDrag, false);
 		canvas.addEventListener('touchstart', canvasDrag, false);
@@ -478,14 +548,18 @@ function drawSubTriangles() {
 	}
 
 
-
+	/**
+	 * Gets the height of an equalateral triangle
+	 */
 	function getHeight(num) 
 	{
 		return Math.sqrt(Math.pow(num, 2) - Math.pow(num / 2, 2));
 	}
 
 
-
+	/**
+	 * Sends the triad data to firebase
+	 */
 	function sendCoordData()
 	{
 		var ref = new Firebase("https://interactive-lecture.firebaseio.com/Test/" + id);
@@ -500,7 +574,7 @@ function drawSubTriangles() {
 
 
 
-
+	// all done now we draw
 	draw();
 
 };
