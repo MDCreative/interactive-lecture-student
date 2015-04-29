@@ -40,14 +40,7 @@
  * Logout controller used to sign the user out
  */
  app.controller("LogOutCtrl", function($scope, $firebase){
-  /**
-   * Check to see if the lecture is closed
-   */
-  $scope.mainRef = new Firebase("https://interactive-lecture.firebaseio.com/Test/"+$scope.id);
-  $scope.mainRef.child("closed").on('value', function(){
 
-    location.reload();  
-  });
   /**
    * Signs the user out of the lecture by reloading the page
    * user is prompted to confirm first.
@@ -97,6 +90,16 @@
 
           // Add the user to the lecture
           $scope.userRef = $scope.mainRef.child('users').push(1);
+
+          /**
+           * Check to see if the lecture is closed
+           */
+            $scope.mainRef.child("status").on('value', function(snapshot){
+              console.log(snapshot.val());
+              if(snapshot.val() !== 1)
+                location.reload();  
+            });
+          
 
 
           /**
