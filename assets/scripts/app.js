@@ -1,4 +1,9 @@
 /**
+ * @file responsible for student interaction with Angular.
+ * @author James Jackson <eeu203@bangor.ac.uk>
+ */
+
+/**
  * The angular app which the whole student process will use
  */
  var app = angular.module("app", ["firebase"]);

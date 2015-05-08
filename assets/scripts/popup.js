@@ -1,4 +1,9 @@
 /**
+ * @file Provides a generic modal window with various options to be displayed to a single user.
+ * @author James Jackson <eeu203@bangor.ac.uk>
+ */
+
+/**
  * Popup window used to show users various bits of information. Replaces the
  * JS alert function
  */

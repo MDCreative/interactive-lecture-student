@@ -1,4 +1,10 @@
 /**
+ * @file Uses specific instances of Popup() to display (and answer to) different questions and their options.
+ * @author James Jackson <eeu203@bangor.ac.uk>
+ */
+
+
+/**
  * Modal window used to display the questions and hash tag
  * @param questions number of questions to be asked or null
  * @param ref Firebase reference used for question answering

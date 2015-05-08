@@ -1,4 +1,11 @@
 /**
+ * @file responsible for the triad behaviour and feedback mechanisms
+ * @author Ben Williams <eeu222@bangor.ac.uk>
+ * @author James Jackson <eeu203@bangor.ac.uk>
+ * @author Liam Chapman <eeu239@bangor.ac.uk>
+ */
+
+/**
  * Builds the various elements of the view
  * @param id the id of the lecture that the student has logged into
  */
@@ -466,23 +473,9 @@ function drawSubTriangles() {
 	var px6 = triad.right.x + Math.cos(a6) * d * triad.right.p;
 	var py6 = triad.right.y + Math.sin(a6) * d * triad.right.p;
 
-
-
-		//ellipse(px, py, 10, 10);
-		//ellipse(px2, py2, 10, 10);
-
-		triangle(triad.top.x, triad.top.y, px, py, px2, py2, "rgb(46, 204, 113)");
-
-
-		// ellipse(px3, py3, 10, 10);
-		// ellipse(px4, py4, 10, 10);
-
-		triangle(triad.left.x, triad.left.y, px3, py3, px4, py4, "rgb(52, 152, 219)");
-
-		// ellipse(px5, py5, 10, 10);
-		// ellipse(px6, py6, 10, 10);
-
-		triangle(triad.right.x, triad.right.y, px5, py5, px6, py6, "rgb(155, 89, 182)");
+	triangle(triad.top.x, triad.top.y, px, py, px2, py2, "rgb(46, 204, 113)");
+	triangle(triad.left.x, triad.left.y, px3, py3, px4, py4, "rgb(52, 152, 219)");
+	triangle(triad.right.x, triad.right.y, px5, py5, px6, py6, "rgb(155, 89, 182)");
 
 	}
 	/**
